@@ -1,0 +1,19 @@
+---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: ---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: rumadi
+    labels:
+      app: rumadi
+  spec:
+    containers:
+      - name: postgres
+        image: romeokienzler/rumadidht
+        ports:
+          - containerPort: 8080
+
+  

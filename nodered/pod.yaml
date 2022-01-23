@@ -1,0 +1,28 @@
+---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: nodered
+    labels:
+      app: nodered
+  spec:
+    containers:
+      - name: nodered
+        image: nodered/node-red
+        ports:
+          - containerPort: 1880
+        volumeMounts:	
+          - mountPath: /data
+            name: nodered
+    initContainers:
+    - name: init-nifi
+      image: ubuntu:20.04
+      command: ['sh', '-c', "chown -R 1000:1000 /data"] 
+      volumeMounts:
+          - mountPath: /data
+            name: nodered
+    volumes:
+      - name: nodered
+        persistentVolumeClaim:
+          claimName: nodered-pv-claim
+        

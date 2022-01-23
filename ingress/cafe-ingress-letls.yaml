@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cafe-ingress
+  annotations:
+    # add an annotation indicating the issuer to use.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    nginx.org/rewrites: "serviceName=nodered rewrite=/;serviceName=coffee-svc rewrite=/beans/"
+spec:
+  ingressClassName: "nginx"
+  tls:
+  - hosts:
+    - rumadi.crabdance.com
+    secretName: tls-cafe-ingress
+  rules:
+  - host: rumadi.crabdance.com
+    http:
+      paths:
+      - path: /tea
+        backend:
+          serviceName: tea-svc
+          servicePort: 80
+      - path: /coffee
+        backend:
+          serviceName: coffee-svc
+          servicePort: 80
+      - path: /nodered/
+        backend:
+          serviceName: nodered
+          servicePort: 1880
+      - path: /ui/
+        backend:
+          serviceName: nodered-ui
+          servicePort: 1880

@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cafe-ingress
+  annotations:
+    # add an annotation indicating the issuer to use.
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    ############ Testing annotations below ############
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    #nginx.ingress.kubernetes.io/secure-backends: "true"
+    #nginx.org/websocket-services: "gracious-austin"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    #nginx.ingress.kubernetes.io/use-regex: "true"
+    #ingress.bluemix.net/rewrite-path: serviceName=vibrant-dubinsky rewrite=/
+spec:
+  ingressClassName: "nginx"
+  tls:
+  - hosts:
+    - bloxxgame.online
+    secretName: tls-cafe-ingress
+  rules:
+  - host: bloxxgame.online
+    http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: driver
+          servicePort: 80
+      - path: /(client/.*)
+        backend:
+          serviceName: vibrant-dubinsky
+          servicePort: 1051
+      - path: /hasura
+        backend:
+          serviceName: vibrant-dubinsky
+          servicePort: 53927

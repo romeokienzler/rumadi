@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rumadi
+  namespace: default
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+      name: client
+  externalIPs:
+    - "169.51.194.236"
+  selector:
+    app: rumadi
+
