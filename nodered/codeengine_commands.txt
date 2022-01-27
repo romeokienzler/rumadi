@@ -1,0 +1,3 @@
+curl -o /data/flows.json https://raw.githubusercontent.com/romeokienzler/rumadi/main/nodered/flows.json
+npm install node-red-contrib-ewelink
+npm --no-update-notifier --no-fund start --cache /data/.npm -- --userDir /data
